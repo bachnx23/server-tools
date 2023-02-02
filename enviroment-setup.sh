@@ -132,6 +132,16 @@ executeInstall() {
         echo -e $WARNING"Installed version ${redis_version}"$RESET_COLOR
     fi
 
+    echo -e $WHITE"***\nCheck Maven"$RESET_COLOR
+    check_maven=$(yum list installed | grep mvn)
+    if [[ ! $check_maven ]];then
+        echo -e $WARNING"Start install Maven. ".$RESET_COLOR
+        yum -y install maven
+    else 
+        maven_version=$(mvn --version | awk '/Apache/ {print $3;}')
+        echo -e $WARNING"Installed version ${maven_version}"$RESET_COLOR
+    fi      
+
 }
 echo -e $WARNING"Do you want to new install? (yes/no) " $RESET_COLOR
 read -p "" yn
