@@ -30,14 +30,15 @@ executeInstall() {
     check_mysql=$(yum list installed | grep mysql)
     if [[ ! $check_mysql ]]; then
         echo -e $WARNING"Start install MySQL server version 5.7 "$RESET_COLOR
-        yum install mysql-community-server
-        systemctl enable mysqld
-        systemctl start mysqld 
-        mysql_password=$(sudo grep 'temporary password' /var/log/mysqld.log 2>&1)
-        echo -e "MySQL new install password: "$SUCCESS""$RESET_COLOR
         ## Add Repo mysql 5.7 
         rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2022 
         yum localinstall https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm 
+        
+        yum -y install mysql-community-server
+        systemctl enable mysqld
+        systemctl start mysqld 
+        mysql_password=$(sudo grep 'temporary password' /var/log/mysqld.log 2>&1)
+        echo -e "MySQL new install password: "$mysql_password""$RESET_COLOR
     else 
         mysql_version=$(mysql -V | awk '/Distrib/ {print $5;}' | sed -e 's/,//g')
         echo -e $WARNING"Installed version ${mysql_version}"$RESET_COLOR
