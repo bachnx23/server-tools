@@ -55,7 +55,7 @@ executeInstall() {
 
         yum-config-manager --enable remi-php"${phpVersion}"
         yum -y install php
-        yum -y install unzip php-cli php-xml php-pecl-zip php-mbstring php-pdo php-pdo_mysql php-gd php-mcrypt php-redis php-bcmath php-soap php-devel php-opcache
+        yum -y install unzip php-opcache php-cli php-xml php-pecl-zip php-mbstring php-pdo php-pdo_mysql php-gd php-mcrypt php-redis php-bcmath php-soap php-devel php-dom
 
         php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
         php composer-setup.php --install-dir=/usr/local/bin --filename=composer
