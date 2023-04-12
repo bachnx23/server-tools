@@ -15,13 +15,6 @@ echo -e $WARNING"Current system is $systemName"$RESET_COLOR
 
 if [[ -f /etc/centos-release && $(grep -c "CentOS Linux release 7" /etc/centos-release) -eq 1 ]]; then
     firewallVer="firewalld"
-elif [[ -f /etc/lsb-release && $(grep -c "DISTRIB_ID=Ubuntu" /etc/lsb-release) -eq 1 ]]; then
-    firewallVer="firewalld"
-else
-    firewallVer="iptable"
-fi
-
-if [[ "$firewallVer" == "firewalld" ]];then
     echo -e $WHITE"***\nCheck FIREWALLD"$RESET_COLOR
     checkFirewalld=$(yum list installed | grep firewalld)
     
@@ -34,7 +27,26 @@ if [[ "$firewallVer" == "firewalld" ]];then
         systemctl enable firewalld
         systemctl start firewalld
     fi
+elif [[ -f /etc/lsb-release && $(grep -c "DISTRIB_ID=Ubuntu" /etc/lsb-release) -eq 1 ]]; then
+    firewallVer="firewalld"
+    echo -e $WHITE"***\nCheck FIREWALLD"$RESET_COLOR
+    checkFirewalld=$(apt list --installed | grep firewalld)
     
+    if [[ ! $checkFirewalld ]];then
+        echo -e $WARNING"Start install Firewalld. "$RESET_COLOR
+        sudo apt -y install firewalld
+        systemctl enable firewalld
+        systemctl start firewalld
+    else 
+        systemctl enable firewalld
+        systemctl start firewalld
+    fi
+else
+    firewallVer="iptable"
+fi
+
+
+if [[ "$firewallVer" == "firewalld" ]];then 
     firewall-cmd --permanent --add-service=http
     firewall-cmd --permanent --add-service=https
     firewall-cmd --reload
