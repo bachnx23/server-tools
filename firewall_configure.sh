@@ -1,6 +1,7 @@
 #!/bin/bash
 
-OS=$(cat /etc/*elease | rpm --eval '%{centos_ver}')
+os=$(cat /etc/*elease | rpm --eval '%{centos_ver}')
+systemName=$(awk -F= '/^NAME/{print $2}' /etc/os-release)
 
 RESET_COLOR='\033[0m'
 ## text color
@@ -10,16 +11,26 @@ SUCCESS='\033[1;32m'
 BLACK='\033[1;30m'
 WHITE='\033[1;37m'
 
-echo -e $SUCCESS"CentOS version: $OS"$RESET_COLOR
+#echo -e $SUCCESS"CentOS version: $OS"$RESET_COLOR
 
+if [[ -f /etc/centos-release && $(grep -c "CentOS Linux release 7" /etc/centos-release) -eq 1 ]]; then
+    firewallVer="firewalld"
+elif [[ -f /etc/lsb-release && $(grep -c "DISTRIB_ID=Ubuntu" /etc/lsb-release) -eq 1 ]]; then
+    firewallVer="firewalld"
+else
+    firewallVer="iptable"
+fi
 
-if [ $OS == 7 ]; then
+if [[ "$firewallVer" == "firewalld" ]];then
     echo -e $WHITE"***\nCheck FIREWALLD"$RESET_COLOR
     checkFirewalld=$(yum list installed | grep firewalld)
     
     if [[ ! $checkFirewalld ]];then
         echo -e $WARNING"Start install Firewalld. "$RESET_COLOR
         yum -y install firewalld
+        systemctl enable firewalld
+        systemctl start firewalld
+    else 
         systemctl enable firewalld
         systemctl start firewalld
     fi
