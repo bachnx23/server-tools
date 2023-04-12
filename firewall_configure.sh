@@ -64,6 +64,7 @@ if [[ "$firewallVer" == "firewalld" ]];then
     firewall-cmd --zone=public --add-port=4730/tcp --permanent
     firewall-cmd --zone=public --add-port=6379/tcp --permanent
     firewall-cmd --zone=public --add-port=9200/tcp --permanent
+    firewall-cmd --zone=public --add-port=3000/tcp --permanent
     firewall-cmd --reload
 else
     iptables -A INPUT -p tcp --dport 22 -s 118.70.126.121 -j ACCEPT
