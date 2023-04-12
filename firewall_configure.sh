@@ -11,7 +11,7 @@ SUCCESS='\033[1;32m'
 BLACK='\033[1;30m'
 WHITE='\033[1;37m'
 
-#echo -e $SUCCESS"CentOS version: $OS"$RESET_COLOR
+echo -e $WARNING"Current system is $systemName"$RESET_COLOR
 
 if [[ -f /etc/centos-release && $(grep -c "CentOS Linux release 7" /etc/centos-release) -eq 1 ]]; then
     firewallVer="firewalld"
