@@ -8,5 +8,5 @@
 curl -o /dev/null \
      -H 'Cache-Control: no-cache' \
      -s \
-     -w "{\"Connect\": %{time_connect},\"TTFB\": %{time_starttransfer}, \"Total\": %{time_total}}\n" \
+     -w "{\"connect\": %{time_connect},\"ttfb\": %{time_starttransfer}, \"total\": %{time_total}, \"status_code\": %{http_code}}\n" \
      $1
