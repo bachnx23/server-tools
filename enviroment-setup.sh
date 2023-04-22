@@ -48,7 +48,8 @@ executeInstall() {
     check_php=$(yum list installed | grep php)
     if [[ ! $check_php ]];then
         sudo yum install epel-release yum-utils
-        read -p $WHITE"What version php want install? (70,71,72,73,74,80) "$RESET_COLOR phpVersion
+        echo -e $WHITE"What version php want install? (70,71,72,73,74,80) "$RESET_COLOR
+        read -p phpVersion
         echo -e "\033[0;34mPHP version $phpVersion will be install in this server\033[\r";
         echo "#################################################################";
         echo "Start install PHP ${phpVersion}"
