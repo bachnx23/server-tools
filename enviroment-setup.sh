@@ -184,8 +184,8 @@ fullInstallation() {
     mysqlInstallation ;
 }
 
-echo -e $DANGER"Select one options \n" $RESET_COLOR
 
+echo -e $DANGER"Select one options \n" $RESET_COLOR
 
 select opt in "Full Installation" "Apache2.4" "PHP" "MySQL" "Elasticsearch" "NodeJS" "GIT" "REDIS" "MAVEN" "JAVA" "Quit"
 do
