@@ -57,8 +57,8 @@ phpInstallation() {
 mysqlInstallation() {
     echo -e $SUCCESS "MySQL installation selected. Please wait." $RESET_COLOR
     echo -e $WHITE"***\nCheck MySQL"$RESET_COLOR
-    check_mysql=$(yum list installed | grep mysql)
-    if [[ ! $check_mysql ]]; then
+    check_mysql=$(mysql -V 2>&1)
+    if [[ $check_mysql == *"mysql: command not found"* ]]; then
         echo -e $WARNING"Start install MySQL server version 5.7 "$RESET_COLOR
         ## Add Repo mysql 5.7 
         rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2022 
