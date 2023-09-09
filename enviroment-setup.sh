@@ -117,8 +117,8 @@ elasticsearchInstallation() {
 nodeJsInstallation() {
     echo -e $SUCCESS "NodeJS installation selected. Please wait." $RESET_COLOR
     echo -e $WHITE"***\nCheck NODEJS"$RESET_COLOR
-    check_nodejs=$(yum list installed | grep node)
-    if [[ ! $check_nodejs ]];then
+    check_nodejs=$(node --version 2>&1)
+    if [[ $check_nodejs == *"node: command not found"* ]];then
         echo -e $WARNING"What version node you want to install? "$RESET_COLOR
         read -p "" nodeVersion
     
