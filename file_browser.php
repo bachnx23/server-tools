@@ -1,7 +1,7 @@
 <?php
 // Thông tin xác thực
 $valid_username = 'megaads';
-$valid_password = 'xxxxxx';
+$valid_password = 'xxxxxxx';
 
 // Hàm để yêu cầu xác thực
 function authenticate() {
