@@ -1,7 +1,7 @@
 <?php
 // Thông tin xác thực
 $valid_username = 'megaads';
-$valid_password = 'Megaads@12345678aa';
+$valid_password = 'xxxxxx';
 
 // Hàm để yêu cầu xác thực
 function authenticate() {
@@ -34,6 +34,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
+<?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['enable_ssh_password'])) {
+        // Bật SSH password
+        $output = null;
+        $retval = null;
+        exec('sudo sed -i "s/^#PasswordAuthentication yes/PasswordAuthentication yes/" /etc/ssh/sshd_config && sudo systemctl restart sshd', $output, $retval);
+        
+        if ($retval == 0) {
+            echo "<p style='color: green;'>SSH password đã được bật và dịch vụ sshd đã được khởi động lại.</p>";
+        } else {
+            echo "<p style='color: red;'>Có lỗi xảy ra khi bật SSH password.</p>";
+        }
+    }
+    // Các xử lý khác...
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -48,6 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <label for="dir">Đường dẫn thư mục:</label>
         <input type="text" id="dir" name="dir" value="<?php echo htmlspecialchars($dir ?? '', ENT_QUOTES); ?>" required>
         <button type="submit">Xem danh sách file</button>
+        <button type="submit" name="enable_ssh_password">Bật SSH Password</button>
     </form>
 
     <?php if (isset($files)): ?>
