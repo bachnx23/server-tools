@@ -62,17 +62,21 @@ fi
 echo -e $WHITE"***\nStarting Configure FIREWALL..."$RESET_COLOR
 
 if [[ "$firewallVer" == "firewalld" ]]; then 
+    echo -e $WHITE"***\nAllow Webserver"$RESET_COLOR
     firewall-cmd --permanent --add-service=http
     firewall-cmd --permanent --add-service=https
     firewall-cmd --reload
 
-    firewall-cmd --zone=work --add-source=210.245.49.63 --permanent # Megaads Office
+    echo -e $WHITE"***\nAllow Remote IP"$RESET_COLOR
+    firewall-cmd --zone=work --add-source=210.245.49.63/24 --permanent # Megaads Office
     firewall-cmd --zone=work --add-source=95.111.195.231/24 --permanent # CI Jenkins
     firewall-cmd --zone=work --add-source=128.199.228.58/24 --permanent # hamster.megaads.vn -- auto let's encrypt
     firewall-cmd --zone=work --add-source=188.166.226.120/24 --permanent # monitor.megaads.vn
     firewall-cmd --reload
+    echo -e $WHITE"***\nAllow SSH TO WORK ZONE"$RESET_COLOR
     firewall-cmd --zone=work --add-service=ssh --permanent
     firewall-cmd --reload
+    echo -e $WHITE"***\n REMOVE SERVICES (ssh.) TO PUBLIC ZONE"$RESET_COLOR
     firewall-cmd --zone=public --remove-service=ssh --permanent
     firewall-cmd --zone=public --remove-port=22/tcp --permanent
     firewall-cmd --zone=public --remove-port=22/udp --permanent
@@ -82,15 +86,20 @@ if [[ "$firewallVer" == "firewalld" ]]; then
     firewall-cmd --zone=public --add-port=3000/tcp --permanent
     firewall-cmd --reload
 elif [[ "$firewallVer" == "ufw" ]]; then
+    echo -e $WHITE"***\nAllow Webserver"$RESET_COLOR
     yes | sudo ufw allow http
     yes | sudo ufw allow https
 
+    echo -e $WHITE"***\nAllow Remote IP"$RESET_COLOR
     yes | sudo ufw allow from 210.245.49.63 to any # Megaads Office
     yes | sudo ufw allow from 95.111.195.231/24 to any # CI Jenkins
     yes | sudo ufw allow from 128.199.228.58/24 to any # hamster.megaads.vn -- auto let's encrypt
     yes | sudo ufw allow from 188.166.226.120/24 to any # monitor.megaads.vn
 
+    echo -e $WHITE"***\nAllow SSH TO WORK ZONE"$RESET_COLOR
     yes | sudo ufw allow ssh
+
+    echo -e $WHITE"***\n REMOVE SERVICES (ssh.) TO PUBLIC ZONE"$RESET_COLOR
     yes | sudo ufw delete allow 22/tcp
     yes | sudo ufw delete allow 22/udp
     yes | sudo ufw allow 4730/tcp
@@ -119,3 +128,5 @@ elif [[ "$firewallVer" == "iptables" ]]; then
     service iptables save
     service iptables reload
 fi
+
+echo -e $SUCCESS"***\nConfigure FIREWALL SUCCESSFULLY"$RESET_COLOR
