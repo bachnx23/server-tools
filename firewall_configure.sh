@@ -12,6 +12,8 @@ BLACK='\033[1;30m'
 WHITE='\033[1;37m'
 
 echo -e $WARNING"Current system is $systemName"$RESET_COLOR
+echo -e $WARNING"Current OS version is $os"$RESET_COLOR
+echo -e $WHITE"***\nCheck FIREWALL"$RESET_COLOR
 
 if [[ -f /etc/centos-release && $(grep -c "CentOS Linux release 7" /etc/centos-release) -eq 1 ]]; then
     firewallVer="firewalld"
@@ -57,6 +59,8 @@ else
     echo -e $DANGER"Unsupported OS"$RESET_COLOR
     exit 1
 fi
+
+echo -e $WHITE"***\nStarting Configure FIREWALL..."$RESET_COLOR
 
 if [[ "$firewallVer" == "firewalld" ]]; then 
     firewall-cmd --permanent --add-service=http
