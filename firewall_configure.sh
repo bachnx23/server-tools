@@ -12,7 +12,6 @@ BLACK='\033[1;30m'
 WHITE='\033[1;37m'
 
 echo -e $WARNING"Current system is $systemName"$RESET_COLOR
-echo -e $WARNING"Current OS version is $os"$RESET_COLOR
 echo -e $WHITE"***\nCheck FIREWALL"$RESET_COLOR
 
 if [[ -f /etc/centos-release && $(grep -c "CentOS Linux release 7" /etc/centos-release) -eq 1 ]]; then
@@ -37,9 +36,9 @@ elif [[ -f /etc/lsb-release && $(grep -c "DISTRIB_ID=Ubuntu" /etc/lsb-release) -
     if [[ ! $checkUfw ]];then
         echo -e $WARNING"Start install UFW. "$RESET_COLOR
         sudo apt -y install ufw
-        sudo ufw enable
+        yes | sudo ufw enable
     else 
-        sudo ufw enable
+        yes | sudo ufw enable
     fi
 elif [[ -f /etc/centos-release && $(grep -c "CentOS release 6" /etc/centos-release) -eq 1 ]]; then
     firewallVer="iptables"
