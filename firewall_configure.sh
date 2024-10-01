@@ -64,7 +64,7 @@ if [[ "$firewallVer" == "firewalld" ]]; then
     firewall-cmd --reload
 
     firewall-cmd --zone=work --add-source=210.245.49.63 --permanent # Megaads Office
-    firewall-cmd --zone=work --add-source=95.111.200.151/24 --permanent # CI Jenkins
+    firewall-cmd --zone=work --add-source=95.111.195.231/24 --permanent # CI Jenkins
     firewall-cmd --zone=work --add-source=128.199.228.58/24 --permanent # hamster.megaads.vn -- auto let's encrypt
     firewall-cmd --zone=work --add-source=188.166.226.120/24 --permanent # monitor.megaads.vn
     firewall-cmd --reload
@@ -83,7 +83,7 @@ elif [[ "$firewallVer" == "ufw" ]]; then
     yes | sudo ufw allow https
 
     yes | sudo ufw allow from 210.245.49.63 to any # Megaads Office
-    yes | sudo ufw allow from 95.111.200.151/24 to any # CI Jenkins
+    yes | sudo ufw allow from 95.111.195.231/24 to any # CI Jenkins
     yes | sudo ufw allow from 128.199.228.58/24 to any # hamster.megaads.vn -- auto let's encrypt
     yes | sudo ufw allow from 188.166.226.120/24 to any # monitor.megaads.vn
 
@@ -101,7 +101,7 @@ elif [[ "$firewallVer" == "iptables" ]]; then
     iptables -A INPUT -p tcp --dport 443 -j ACCEPT
 
     iptables -A INPUT -s 210.245.49.63 -j ACCEPT # Megaads Office
-    iptables -A INPUT -s 95.111.200.151/24 -j ACCEPT # CI Jenkins
+    iptables -A INPUT -s 95.111.195.231/24 -j ACCEPT # CI Jenkins
     iptables -A INPUT -s 128.199.228.58/24 -j ACCEPT # hamster.megaads.vn -- auto let's encrypt
     iptables -A INPUT -s 188.166.226.120/24 -j ACCEPT # monitor.megaads.vn
 
