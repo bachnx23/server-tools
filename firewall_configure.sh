@@ -94,6 +94,7 @@ elif [[ "$firewallVer" == "ufw" ]]; then
     yes | sudo ufw allow 6379/tcp
     yes | sudo ufw allow 9200/tcp
     yes | sudo ufw allow 3000/tcp
+    yes | sudo ufw enable
     sudo ufw reload
 
 elif [[ "$firewallVer" == "iptables" ]]; then
