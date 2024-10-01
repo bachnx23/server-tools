@@ -79,23 +79,23 @@ if [[ "$firewallVer" == "firewalld" ]]; then
     firewall-cmd --zone=public --add-port=3000/tcp --permanent
     firewall-cmd --reload
 elif [[ "$firewallVer" == "ufw" ]]; then
-    sudo ufw allow http
-    sudo ufw allow https
+    yes | sudo ufw allow http
+    yes | sudo ufw allow https
 
-    sudo ufw allow from 210.245.49.63 to any # Megaads Office
-    sudo ufw allow from 95.111.200.151/24 to any # CI Jenkins
-    sudo ufw allow from 128.199.228.58/24 to any # hamster.megaads.vn -- auto let's encrypt
-    sudo ufw allow from 188.166.226.120/24 to any # monitor.megaads.vn
+    yes | sudo ufw allow from 210.245.49.63 to any # Megaads Office
+    yes | sudo ufw allow from 95.111.200.151/24 to any # CI Jenkins
+    yes | sudo ufw allow from 128.199.228.58/24 to any # hamster.megaads.vn -- auto let's encrypt
+    yes | sudo ufw allow from 188.166.226.120/24 to any # monitor.megaads.vn
 
-    sudo ufw allow ssh
-    sudo ufw delete allow 22/tcp
-    sudo ufw delete allow 22/udp
-    sudo ufw allow 4730/tcp
-    sudo ufw allow 6379/tcp
-    sudo ufw allow 9200/tcp
-    sudo ufw allow 3000/tcp
+    yes | sudo ufw allow ssh
+    yes | sudo ufw delete allow 22/tcp
+    yes | sudo ufw delete allow 22/udp
+    yes | sudo ufw allow 4730/tcp
+    yes | sudo ufw allow 6379/tcp
+    yes | sudo ufw allow 9200/tcp
+    yes | sudo ufw allow 3000/tcp
     sudo ufw reload
-    
+
 elif [[ "$firewallVer" == "iptables" ]]; then
     iptables -A INPUT -p tcp --dport 80 -j ACCEPT
     iptables -A INPUT -p tcp --dport 443 -j ACCEPT
